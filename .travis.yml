@@ -5,3 +5,14 @@ jdk: openjdk8
 branches:
   except:
     - gh-pages
+
+deploy:
+  provider: releases
+  api_key:
+    secure: MTrbp2sZem8LYlQYu5s/9r7c+kTTuPOjM2f2KG00j7gm8mdPToHUo3AVCIuZvv0gaSFvohQVU2+D2taxo7lVJx7x5H4/Me4uadqBBKFx7OfnulueXhpWLDr4wHlgq5RtK0W4BuDrKh7BR4n7/27C1a7KTe72EBTKyuP56ZEA88f4fIKLwbBObLJbO11EVhXf7LJstIlnqiCuBNUODl1jla2a92LJED0LJAsX+ciHryvsLzlcHvSQlf5soBGI3u1D/9P19jphg8mq/u8CSAwZh7XyrRizAiDQVS3PB0zUgyiJ/8juL5HWccmgPMjo/7pGRSXFXaO0TGI3jrmZJDpv/Xtm5aFIuKJ2uXCbgPLPd2Sz47NLl3SVDRlWt7rKRboF0w1qFGP3Wm3RXwRhZmQHkqTyqJz1cnkKsQM557waqYjbtvWK9kEmADegMxOKAxskk6IxMRp/vJDxe2PHHO+e6Iiitf/P2ZXDbjmhbq5NYEpKy5H4PfZD22Dk+S4VoTTuM5MDSZvQ/RRxAvCwPgjEHEAQIpxuMyn79uKkeAbEQAiMkJIpTxp0kvBvI1x20M46LiCy+uDiLv4acQ8+qMHinItHMVR/C1JBuFx3oDXzCX6qXIBjj4BOSFxEkXnzpFeu2rbFvYKmmdhAouFRIn0VWiL3A6B+48Oj3r14dPXB9vQ=
+  skip_cleanup: true
+  file_glob: true
+  file: build/libs/prometheus-kafka-bridge-*-all.jar
+  draft: true
+  on:
+    tags: true
