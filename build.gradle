@@ -42,7 +42,7 @@ compileTestKotlin {
 }
 
 application {
-    mainClassName = 'com.github.sukhinin.prometheus.RemoteWriteServer'
+    mainClassName = 'com.github.sukhinin.prometheus.write.RemoteWriteServer'
 }
 
 jgitver {

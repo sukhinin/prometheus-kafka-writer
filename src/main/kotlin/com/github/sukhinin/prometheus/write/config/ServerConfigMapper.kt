@@ -1,4 +1,4 @@
-package com.github.sukhinin.prometheus.config
+package com.github.sukhinin.prometheus.write.config
 
 object ServerConfigMapper {
     fun from(cfg: com.github.sukhinin.simpleconfig.Config): ServerConfig {

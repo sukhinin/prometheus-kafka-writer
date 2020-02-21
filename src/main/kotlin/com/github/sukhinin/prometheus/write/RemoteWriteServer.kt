@@ -1,9 +1,9 @@
-package com.github.sukhinin.prometheus
+package com.github.sukhinin.prometheus.write
 
-import com.github.sukhinin.prometheus.config.Config
-import com.github.sukhinin.prometheus.config.ConfigMapper
-import com.github.sukhinin.prometheus.config.KafkaConfig
-import com.github.sukhinin.prometheus.data.LabeledSample
+import com.github.sukhinin.prometheus.write.config.Config
+import com.github.sukhinin.prometheus.write.config.ConfigMapper
+import com.github.sukhinin.prometheus.write.config.KafkaConfig
+import com.github.sukhinin.prometheus.write.data.LabeledSample
 import com.github.sukhinin.simpleconfig.*
 import io.javalin.Javalin
 import io.micrometer.core.instrument.Metrics

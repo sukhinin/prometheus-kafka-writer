@@ -1,4 +1,4 @@
-package com.github.sukhinin.prometheus.config
+package com.github.sukhinin.prometheus.write.config
 
 import com.github.sukhinin.simpleconfig.scoped
 

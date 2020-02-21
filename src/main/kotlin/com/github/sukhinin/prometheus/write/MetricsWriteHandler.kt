@@ -1,10 +1,10 @@
-package com.github.sukhinin.prometheus
+package com.github.sukhinin.prometheus.write
 
 import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.dataformat.protobuf.ProtobufMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.github.sukhinin.prometheus.data.LabeledSample
-import com.github.sukhinin.prometheus.data.WriteRequest
+import com.github.sukhinin.prometheus.write.data.LabeledSample
+import com.github.sukhinin.prometheus.write.data.WriteRequest
 import io.javalin.http.Context
 import io.javalin.http.Handler
 import org.apache.kafka.clients.producer.Producer
