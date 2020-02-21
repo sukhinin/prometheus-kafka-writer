@@ -40,7 +40,8 @@ object RemoteWriteServer {
         val producer = createKafkaProducer(config.kafka)
 
         val server = createJavalinServer()
-        server.post("/", MetricsWriteHandler(producer, config.kafka.topic))
+        val metricsHandler = WriteRequestHandler(producer, config.kafka.topic)
+        server.post("/", WriteRequestHandlerAdapter(metricsHandler))
         server.get("/metrics") { ctx -> ctx.result(meterRegistry.scrape()) }
         server.start(config.server.port)
     }
