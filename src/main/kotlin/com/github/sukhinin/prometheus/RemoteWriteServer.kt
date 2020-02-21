@@ -3,6 +3,7 @@ package com.github.sukhinin.prometheus
 import com.github.sukhinin.prometheus.config.Config
 import com.github.sukhinin.prometheus.config.ConfigMapper
 import com.github.sukhinin.prometheus.config.KafkaConfig
+import com.github.sukhinin.prometheus.data.LabeledSample
 import com.github.sukhinin.simpleconfig.*
 import io.javalin.Javalin
 import io.micrometer.core.instrument.Metrics
@@ -93,8 +94,8 @@ object RemoteWriteServer {
         ).forEach { binder -> binder.bindTo(Metrics.globalRegistry) }
     }
 
-    private fun createKafkaProducer(config: KafkaConfig): Producer<Nothing, ByteArray> {
-        val producer = KafkaProducer<Nothing, ByteArray>(config.props)
+    private fun createKafkaProducer(config: KafkaConfig): Producer<Nothing, LabeledSample> {
+        val producer = KafkaProducer<Nothing, LabeledSample>(config.props)
         Runtime.getRuntime().addShutdownHook(Thread { producer.close() })
         return producer
     }
