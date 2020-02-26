@@ -28,7 +28,7 @@ broker `localhost:9092` to topic `prometheus-metrics`. This behavior can be cust
 configuration properties.
 
 Configuration values are resolved from multiple sources with the following precedence, from highest to lowest:
-1. Java system properties, usually passed as one or more `-Dname=value` command line arguments,
+1. Java system properties prefixed with `app.`, usually passed as one or more `-Dapp.name=value` command line arguments,
 2. custom `.properties` file specified with `-c` or `--config` command line argument,
 3. [default configuration values](https://github.com/sukhinin/prometheus-kafka-bridge/blob/master/src/main/resources/reference.properties).
 
