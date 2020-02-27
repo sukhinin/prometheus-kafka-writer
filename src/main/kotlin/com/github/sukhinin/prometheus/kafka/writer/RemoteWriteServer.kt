@@ -23,6 +23,7 @@ import org.apache.kafka.clients.producer.Producer
 import org.eclipse.jetty.server.Server
 import org.slf4j.LoggerFactory
 import java.nio.file.Paths
+import java.time.Duration
 import kotlin.system.exitProcess
 
 object RemoteWriteServer {
@@ -101,7 +102,7 @@ object RemoteWriteServer {
 
     private fun createKafkaProducer(config: KafkaConfig): Producer<Nothing, LabeledSample> {
         val producer = KafkaProducer<Nothing, LabeledSample>(config.props)
-        Runtime.getRuntime().addShutdownHook(Thread { producer.close() })
+        Runtime.getRuntime().addShutdownHook(Thread { producer.close(Duration.ofSeconds(10)) })
         return producer
     }
 
