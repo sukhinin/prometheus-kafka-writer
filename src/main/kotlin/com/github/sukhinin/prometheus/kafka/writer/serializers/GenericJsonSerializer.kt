@@ -1,7 +1,7 @@
-package com.github.sukhinin.prometheus.write.serializers
+package com.github.sukhinin.prometheus.kafka.writer.serializers
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.sukhinin.prometheus.write.data.LabeledSample
+import com.github.sukhinin.prometheus.kafka.writer.data.LabeledSample
 import org.apache.kafka.common.serialization.Serializer
 
 /**

@@ -1,9 +1,9 @@
-package com.github.sukhinin.prometheus.write
+package com.github.sukhinin.prometheus.kafka.writer
 
 import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.dataformat.protobuf.ProtobufMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.github.sukhinin.prometheus.write.data.WriteRequest
+import com.github.sukhinin.prometheus.kafka.writer.data.WriteRequest
 import io.javalin.http.Context
 import io.javalin.http.Handler
 import org.xerial.snappy.Snappy

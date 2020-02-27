@@ -1,6 +1,6 @@
-package com.github.sukhinin.prometheus.write
+package com.github.sukhinin.prometheus.kafka.writer
 
-import com.github.sukhinin.prometheus.write.data.*
+import com.github.sukhinin.prometheus.kafka.writer.data.*
 import io.kotlintest.matchers.collections.shouldContainExactly
 import io.kotlintest.specs.ShouldSpec
 import org.apache.kafka.clients.producer.MockProducer
@@ -21,7 +21,10 @@ internal class WriteRequestHandlerTest : ShouldSpec({
         )
 
         val producer = MockProducer<Nothing, LabeledSample>(true, null, null)
-        val handler = WriteRequestHandler(producer, "prometheus-metrics")
+        val handler = WriteRequestHandler(
+            producer,
+            "prometheus-metrics"
+        )
         handler.handle(request)
 
         producer.history().map { it.topic() } shouldContainExactly MutableList(4) { "prometheus-metrics" }

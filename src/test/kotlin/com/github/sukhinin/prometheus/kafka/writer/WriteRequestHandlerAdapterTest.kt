@@ -1,11 +1,11 @@
-package com.github.sukhinin.prometheus.write
+package com.github.sukhinin.prometheus.kafka.writer
 
 import com.fasterxml.jackson.dataformat.protobuf.ProtobufMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.github.sukhinin.prometheus.write.data.Label
-import com.github.sukhinin.prometheus.write.data.Sample
-import com.github.sukhinin.prometheus.write.data.TimeSeries
-import com.github.sukhinin.prometheus.write.data.WriteRequest
+import com.github.sukhinin.prometheus.kafka.writer.data.Label
+import com.github.sukhinin.prometheus.kafka.writer.data.Sample
+import com.github.sukhinin.prometheus.kafka.writer.data.TimeSeries
+import com.github.sukhinin.prometheus.kafka.writer.data.WriteRequest
 import io.javalin.http.Context
 import io.kotlintest.specs.ShouldSpec
 import io.mockk.confirmVerified

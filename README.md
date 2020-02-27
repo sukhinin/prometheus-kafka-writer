@@ -1,7 +1,7 @@
 # Kafka remote write backend for Prometheus
 
-[![Build Status](https://travis-ci.com/sukhinin/prometheus-kafka-bridge.svg?branch=master)](https://travis-ci.com/sukhinin/prometheus-kafka-bridge)
-[![codebeat badge](https://codebeat.co/badges/8973464f-6218-4339-8cf1-9963fb6b2b04)](https://codebeat.co/projects/github-com-sukhinin-prometheus-kafka-bridge-master)
+[![Build Status](https://travis-ci.com/sukhinin/prometheus-kafka-writer.svg?branch=master)](https://travis-ci.com/sukhinin/prometheus-kafka-writer)
+[![codebeat badge](https://codebeat.co/badges/aa8e675a-feb8-459a-9c92-e6e4f690c4b7)](https://codebeat.co/projects/github-com-sukhinin-prometheus-kafka-writer-master)
 
 Prometheus includes a local on-disk time series database, but also optionally integrates with remote storage systems.
 A limitation of the local storage is that it is not clustered or replicated. Kafka remote write backend utilizes 
@@ -13,11 +13,11 @@ but should also work with any recent version.
 
 ## Downloading and running
 Kafka remote write backend for Prometheus is distributed as a self-containing JAR (also known as fat JAR).
-Simply download `prometheus-kafka-bridge-VERSION-all.jar` from 
-[GitHub releases page](https://github.com/sukhinin/prometheus-kafka-bridge/releases) and run the following
+Simply download `prometheus-kafka-writer-VERSION-all.jar` from 
+[GitHub releases page](https://github.com/sukhinin/prometheus-kafka-writer/releases) and run the following
 (assuming java is on your PATH):
 ```
-java -jar prometheus-kafka-bridge-VERSION-all.jar
+java -jar prometheus-kafka-writer-VERSION-all.jar
 ```
 
 You can also build the project yourself (see [Building](#building) section)
@@ -30,7 +30,7 @@ configuration properties.
 Configuration values are resolved from multiple sources with the following precedence, from highest to lowest:
 1. Java system properties prefixed with `app.`, usually passed as one or more `-Dapp.name=value` command line arguments,
 2. custom `.properties` file specified with `-c` or `--config` command line argument,
-3. [default configuration values](https://github.com/sukhinin/prometheus-kafka-bridge/blob/master/src/main/resources/reference.properties).
+3. [default configuration values](https://github.com/sukhinin/prometheus-kafka-writer/blob/master/src/main/resources/reference.properties).
 
 ### Important properties
 | Property | Description |
@@ -52,7 +52,7 @@ To use your own implementation add it to runtime classpath and set `kafka.props.
 class name.
 
 ### `GenericJsonSerializer`
-`com.github.sukhinin.prometheus.write.serializers.GenericJsonSerializer` is the implementation used by default. 
+`com.github.sukhinin.prometheus.kafka.writer.serializers.GenericJsonSerializer` is the implementation used by default. 
 It converts metric samples to a JSON string having the following structure:
 ```
 {
@@ -67,8 +67,8 @@ It converts metric samples to a JSON string having the following structure:
 ```
 
 ### `ClickHouseJsonSerializer`
-`com.github.sukhinin.prometheus.write.serializers.ClickHouseJsonSerializer` also converts metric samples to a JSON 
-string, but it differs from the default `GenericJsonSerializer` in the way tags are serialized:
+`com.github.sukhinin.prometheus.kafka.writer.serializers.ClickHouseJsonSerializer` also converts metric samples 
+to a JSON string, but it differs from the default `GenericJsonSerializer` in the way tags are serialized:
 ```
 {
   "timestamp": UNIX_TIMESTAMP,
@@ -99,7 +99,7 @@ Kafka remote write backend for Prometheus is built with Gradle.
 - `./gradlew build` builds the project,
 - `./gradlew test` runs the test suite.
 
-Fat JAR is produced in `build/libs/prometheus-kafka-bridge-VERSION-all.jar`. The build also assembles redistributable 
+Fat JAR is produced in `build/libs/prometheus-kafka-writer-VERSION-all.jar`. The build also assembles redistributable 
 application archives in `build/distributions` folder.
 
 ## Affiliation

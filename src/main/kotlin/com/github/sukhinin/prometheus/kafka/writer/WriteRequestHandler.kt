@@ -1,7 +1,7 @@
-package com.github.sukhinin.prometheus.write
+package com.github.sukhinin.prometheus.kafka.writer
 
-import com.github.sukhinin.prometheus.write.data.LabeledSample
-import com.github.sukhinin.prometheus.write.data.WriteRequest
+import com.github.sukhinin.prometheus.kafka.writer.data.LabeledSample
+import com.github.sukhinin.prometheus.kafka.writer.data.WriteRequest
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerRecord
 

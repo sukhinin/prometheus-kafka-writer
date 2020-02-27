@@ -1,4 +1,4 @@
-package com.github.sukhinin.prometheus.write.config
+package com.github.sukhinin.prometheus.kafka.writer.config
 
 import com.github.sukhinin.simpleconfig.scoped
 

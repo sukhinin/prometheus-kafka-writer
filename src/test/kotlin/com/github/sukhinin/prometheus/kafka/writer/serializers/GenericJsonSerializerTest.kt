@@ -1,7 +1,7 @@
-package com.github.sukhinin.prometheus.write.serializers
+package com.github.sukhinin.prometheus.kafka.writer.serializers
 
-import com.github.sukhinin.prometheus.write.data.Label
-import com.github.sukhinin.prometheus.write.data.LabeledSample
+import com.github.sukhinin.prometheus.kafka.writer.data.Label
+import com.github.sukhinin.prometheus.kafka.writer.data.LabeledSample
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 

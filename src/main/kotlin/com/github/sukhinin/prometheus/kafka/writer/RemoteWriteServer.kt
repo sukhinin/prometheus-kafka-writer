@@ -1,9 +1,9 @@
-package com.github.sukhinin.prometheus.write
+package com.github.sukhinin.prometheus.kafka.writer
 
-import com.github.sukhinin.prometheus.write.config.Config
-import com.github.sukhinin.prometheus.write.config.ConfigMapper
-import com.github.sukhinin.prometheus.write.config.KafkaConfig
-import com.github.sukhinin.prometheus.write.data.LabeledSample
+import com.github.sukhinin.prometheus.kafka.writer.config.Config
+import com.github.sukhinin.prometheus.kafka.writer.config.ConfigMapper
+import com.github.sukhinin.prometheus.kafka.writer.config.KafkaConfig
+import com.github.sukhinin.prometheus.kafka.writer.data.LabeledSample
 import com.github.sukhinin.simpleconfig.*
 import io.javalin.Javalin
 import io.micrometer.core.instrument.Metrics
@@ -47,7 +47,7 @@ object RemoteWriteServer {
     }
 
     private fun parseCommandLineArgs(args: Array<String>): Namespace {
-        val parser = ArgumentParsers.newFor("prometheus-kafka-bridge").build()
+        val parser = ArgumentParsers.newFor("prometheus-kafka-writer").build()
             .defaultHelp(true)
             .description("Prometheus remote write backend with Kafka export.")
         parser.addArgument("-c", "--config")

@@ -51,7 +51,7 @@ test {
 }
 
 application {
-    mainClassName = 'com.github.sukhinin.prometheus.write.RemoteWriteServer'
+    mainClassName = 'com.github.sukhinin.prometheus.kafka.writer.RemoteWriteServer'
 }
 
 jgitver {
