@@ -64,15 +64,8 @@ object RemoteWriteServer {
     }
 
     private fun getApplicationConfig(ns: Namespace): Config {
-        val systemPropertiesConfig = System.getProperties().stringPropertyNames()
-            .filter { name -> name.startsWith("app.") }
-            .associateWith { name -> System.getProperties().getProperty(name) }
-            .mapKeys { (name, _) -> name.removePrefix("app.") }
-            .let(::MapConfig)
-        val applicationConfig = ns.getString("config")
-            ?.let { s -> Paths.get(s) }
-            ?.let { path -> ConfigLoader.getConfigFromPath(path) }
-            ?: MapConfig(emptyMap())
+        val systemPropertiesConfig = ConfigLoader.getConfigFromSystemProperties("app")
+        val applicationConfig = ns.getString("config")?.let(ConfigLoader::getConfigFromPath) ?: MapConfig(emptyMap())
         val referenceConfig = ConfigLoader.getConfigFromSystemResource("reference.properties")
 
         val config = systemPropertiesConfig
