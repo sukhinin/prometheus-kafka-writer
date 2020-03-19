@@ -11,9 +11,9 @@ import java.io.ByteArrayOutputStream
  * ```
  * CREATE TABLE test.metrics(
  *     timestamp DateTime,
- *     name String,
+ *     metric String,
  *     value Float64,
- *     labels Nested(name String, value String)
+ *     tags Nested(name String, value String)
  * )
  * ENGINE = MergeTree()
  * PARTITION BY toYYYYMMDD(timestamp)
@@ -30,15 +30,15 @@ class ClickHouseJsonSerializer : Serializer<LabeledSample> {
         generator.writeStartObject()
 
         generator.writeNumberField("timestamp", data.timestamp)
-        generator.writeStringField("name", data.name)
+        generator.writeStringField("metric", data.metric)
         generator.writeNumberField("value", data.value)
 
-        generator.writeArrayFieldStart("labels.name")
-        data.labels.forEach { label -> generator.writeString(label.name) }
+        generator.writeArrayFieldStart("tags.name")
+        data.tags.forEach { label -> generator.writeString(label.name) }
         generator.writeEndArray()
 
-        generator.writeArrayFieldStart("labels.value")
-        data.labels.forEach { label -> generator.writeString(label.value) }
+        generator.writeArrayFieldStart("tags.value")
+        data.tags.forEach { label -> generator.writeString(label.value) }
         generator.writeEndArray()
 
         generator.writeEndObject()

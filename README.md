@@ -57,9 +57,9 @@ It converts metric samples to a JSON string having the following structure:
 ```
 {
   "timestamp": UNIX_TIMESTAMP,
-  "name": "METRIC_NAME",
+  "metric": "METRIC_NAME",
   "value": METRIC_VALUE,
-  "labels": [
+  "tags": [
     { "name": "LABEL_NAME_1", "value": "LABEL_VALUE_1" }, 
     { "name": "LABEL_NAME_N", "value": "LABEL_VALUE_N" }
   ]
@@ -72,10 +72,10 @@ to a JSON string, but it differs from the default `GenericJsonSerializer` in the
 ```
 {
   "timestamp": UNIX_TIMESTAMP,
-  "name": "METRIC_NAME",
+  "metric": "METRIC_NAME",
   "value": METRIC_VALUE,
-  "labels.name": [ "LABEL_NAME_1", "LABEL_NAME_N" ],
-  "labels.value": [ "LABEL_VALUE_1", "LABEL_VALUE_N" ]
+  "tags.name": [ "LABEL_NAME_1", "LABEL_NAME_N" ],
+  "tags.value": [ "LABEL_VALUE_1", "LABEL_VALUE_N" ]
 }
 ```
 
@@ -84,9 +84,9 @@ given the table has the following format:
 ```
 CREATE TABLE test.metrics(
     timestamp DateTime,
-    name String,
+    metric String,
     value Float64,
-    labels Nested(name String, value String)
+    tags Nested(name String, value String)
 ) 
 ENGINE = MergeTree()
 PARTITION BY toYYYYMMDD(timestamp)

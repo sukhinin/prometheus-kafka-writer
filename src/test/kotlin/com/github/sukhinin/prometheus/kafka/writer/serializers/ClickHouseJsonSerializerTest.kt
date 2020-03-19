@@ -10,7 +10,7 @@ internal class ClickHouseJsonSerializerTest : ShouldSpec({
         val serializer = ClickHouseJsonSerializer()
         val sample = LabeledSample(1234567890, "n", 100.0, setOf(Label("ln1", "lv1"), Label("ln2", "lv2")))
         val bytes = serializer.serialize("topic", sample)
-        val expected = """{"timestamp":1234567890,"name":"n","value":100.0,"labels.name":["ln1","ln2"],"labels.value":["lv1","lv2"]}"""
+        val expected = """{"timestamp":1234567890,"metric":"n","value":100.0,"tags.name":["ln1","ln2"],"tags.value":["lv1","lv2"]}"""
         String(bytes) shouldBe expected
     }
 })
