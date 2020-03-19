@@ -93,6 +93,9 @@ PARTITION BY toYYYYMMDD(timestamp)
 ORDER BY (name, timestamp)
 ```
 
+`ClickHouseJsonSerializer` also supports including selected tags in top-level JSON body. A comma-separated list
+of such tags can be specified in `kafka.props.value.serializer.extract.tags` configuration parameter.
+
 ## Building
 Kafka remote write backend for Prometheus is built with Gradle.
 
