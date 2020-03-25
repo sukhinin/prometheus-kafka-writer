@@ -20,12 +20,12 @@ Simply download `prometheus-kafka-writer-VERSION-all.jar` from
 java -jar prometheus-kafka-writer-VERSION-all.jar
 ```
 
-You can also build the project yourself (see [Building](#building) section)
+You can also build the project yourself (see [Building](#building) section).
 
 ## Configuration
 By default application accepts remote connections on port 8080 and pushes metrics to local Kafka 
 broker `localhost:9092` to topic `prometheus-metrics`. This behavior can be customized by overriding 
-configuration properties.
+default configuration.
 
 Configuration values are resolved from multiple sources with the following precedence, from highest to lowest:
 1. Java system properties prefixed with `app.`, usually passed as one or more `-Dapp.name=value` command line arguments,
