@@ -2,7 +2,6 @@ package com.github.sukhinin.prometheus.kafka.writer
 
 import com.github.sukhinin.prometheus.kafka.writer.config.Config
 import com.github.sukhinin.prometheus.kafka.writer.config.ConfigMapper
-import com.github.sukhinin.prometheus.kafka.writer.config.KafkaConfig
 import com.github.sukhinin.prometheus.kafka.writer.data.LabeledSample
 import com.github.sukhinin.simpleconfig.*
 import io.javalin.Javalin
@@ -19,16 +18,19 @@ import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.inf.ArgumentParserException
 import net.sourceforge.argparse4j.inf.Namespace
 import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.Producer
 import org.eclipse.jetty.server.Server
 import org.slf4j.LoggerFactory
-import java.nio.file.Paths
-import java.time.Duration
 import kotlin.system.exitProcess
 
 object RemoteWriteServer {
 
+    private val shutdownHooks: MutableList<Runnable> = ArrayList()
     private val logger = LoggerFactory.getLogger(RemoteWriteServer::class.java)
+
+    init {
+        // Schedule running shutdown hooks on JVM shutdown
+        Runtime.getRuntime().addShutdownHook(Thread(RemoteWriteServer::runShutdownHooks))
+    }
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -38,13 +40,21 @@ object RemoteWriteServer {
         val meterRegistry = createPrometheusMeterRegistry()
         setupCommonMeterBindings()
 
-        val producer = createKafkaProducer(config.kafka)
+        try {
+            val producer = KafkaProducer<Nothing, LabeledSample>(config.kafka.props)
+            shutdownHooks.add(Runnable { producer.close() })
 
-        val server = createJavalinServer()
-        val metricsHandler = WriteRequestHandler(producer, config.kafka.topic)
-        server.post("/", WriteRequestHandlerAdapter(metricsHandler))
-        server.get("/metrics") { ctx -> ctx.result(meterRegistry.scrape()) }
-        server.start(config.server.port)
+            val server = createJavalinServer()
+            val metricsHandler = WriteRequestHandler(producer, config.kafka.topic)
+            server.post("/", WriteRequestHandlerAdapter(metricsHandler))
+            server.get("/metrics") { ctx -> ctx.result(meterRegistry.scrape()) }
+            server.start(config.server.port)
+            shutdownHooks.add(Runnable { server.stop() })
+        } catch (e: Exception) {
+            // In case of an exception force JVM to run shutdown hooks and exit
+            logger.error("Error starting the application", e)
+            exitProcess(2)
+        }
     }
 
     private fun parseCommandLineArgs(args: Array<String>): Namespace {
@@ -93,12 +103,6 @@ object RemoteWriteServer {
         ).forEach { binder -> binder.bindTo(Metrics.globalRegistry) }
     }
 
-    private fun createKafkaProducer(config: KafkaConfig): Producer<Nothing, LabeledSample> {
-        val producer = KafkaProducer<Nothing, LabeledSample>(config.props)
-        Runtime.getRuntime().addShutdownHook(Thread { producer.close(Duration.ofSeconds(10)) })
-        return producer
-    }
-
     private fun createJavalinServer(): Javalin {
         val server = Javalin.create { javalinConfig ->
             javalinConfig.showJavalinBanner = false
@@ -106,7 +110,19 @@ object RemoteWriteServer {
                 Server(InstrumentedQueuedThreadPool(Metrics.globalRegistry, emptyList()))
             }
         }
-        Runtime.getRuntime().addShutdownHook(Thread { server.stop() })
         return server
+    }
+
+    private fun runShutdownHooks() {
+        // Run shutdown hooks in reverse registration order
+        logger.info("Running registered application shutdown hooks")
+        val reversedShutdownHooks = shutdownHooks.reversed()
+        for (hook in reversedShutdownHooks) {
+            try {
+                hook.run()
+            } catch (e: Exception) {
+                logger.error("Exception in shutdown hook", e)
+            }
+        }
     }
 }
