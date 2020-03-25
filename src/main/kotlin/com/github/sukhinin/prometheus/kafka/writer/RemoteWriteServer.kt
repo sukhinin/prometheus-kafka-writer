@@ -1,12 +1,13 @@
 package com.github.sukhinin.prometheus.kafka.writer
 
+import com.github.sukhinin.micrometer.jmx.kafka.KafkaProducerMetrics
 import com.github.sukhinin.prometheus.kafka.writer.config.Config
 import com.github.sukhinin.prometheus.kafka.writer.config.ConfigMapper
 import com.github.sukhinin.prometheus.kafka.writer.data.LabeledSample
 import com.github.sukhinin.simpleconfig.*
 import io.javalin.Javalin
+import io.javalin.plugin.metrics.MicrometerPlugin
 import io.micrometer.core.instrument.Metrics
-import io.micrometer.core.instrument.binder.jetty.InstrumentedQueuedThreadPool
 import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
@@ -18,7 +19,6 @@ import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.inf.ArgumentParserException
 import net.sourceforge.argparse4j.inf.Namespace
 import org.apache.kafka.clients.producer.KafkaProducer
-import org.eclipse.jetty.server.Server
 import org.slf4j.LoggerFactory
 import kotlin.system.exitProcess
 
@@ -99,18 +99,17 @@ object RemoteWriteServer {
             JvmGcMetrics(),
             JvmThreadMetrics(),
             ProcessorMetrics(),
-            LogbackMetrics()
+            LogbackMetrics(),
+            KafkaProducerMetrics()
         ).forEach { binder -> binder.bindTo(Metrics.globalRegistry) }
     }
 
     private fun createJavalinServer(): Javalin {
-        val server = Javalin.create { javalinConfig ->
-            javalinConfig.showJavalinBanner = false
-            javalinConfig.server {
-                Server(InstrumentedQueuedThreadPool(Metrics.globalRegistry, emptyList()))
-            }
+        return Javalin.create { config ->
+            config.registerPlugin(MicrometerPlugin())
+            config.showJavalinBanner = false
+            config.logIfServerNotStarted = false
         }
-        return server
     }
 
     private fun runShutdownHooks() {
