@@ -123,5 +123,6 @@ object RemoteWriteServer {
                 logger.error("Exception in shutdown hook", e)
             }
         }
+        logger.info("All shutdown hooks have been executed")
     }
 }
