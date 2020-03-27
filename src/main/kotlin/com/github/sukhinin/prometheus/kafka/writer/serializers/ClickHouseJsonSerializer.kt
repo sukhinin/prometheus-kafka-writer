@@ -44,7 +44,7 @@ class ClickHouseJsonSerializer : Serializer<LabeledSample> {
         val generator = factory.createGenerator(stream)
         generator.writeStartObject()
 
-        generator.writeNumberField("timestamp", data.timestamp)
+        generator.writeNumberField("timestamp", data.timestamp / 1000)
         generator.writeStringField("metric", data.metric)
         generator.writeNumberField("value", data.value)
 
