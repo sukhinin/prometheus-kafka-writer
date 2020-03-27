@@ -20,6 +20,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException
 import net.sourceforge.argparse4j.inf.Namespace
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.slf4j.LoggerFactory
+import java.time.Duration
 import kotlin.system.exitProcess
 
 object RemoteWriteServer {
@@ -42,7 +43,7 @@ object RemoteWriteServer {
 
         try {
             val producer = KafkaProducer<Nothing, LabeledSample>(config.kafka.props)
-            shutdownHooks.add(Runnable { producer.close() })
+            shutdownHooks.add(Runnable { producer.close(Duration.ofSeconds(10)) })
 
             val server = createJavalinServer()
             val metricsHandler = WriteRequestHandler(producer, config.kafka.topic)
