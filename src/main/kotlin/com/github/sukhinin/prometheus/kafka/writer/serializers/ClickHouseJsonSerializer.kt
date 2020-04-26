@@ -3,6 +3,7 @@ package com.github.sukhinin.prometheus.kafka.writer.serializers
 import com.fasterxml.jackson.core.JsonFactory
 import com.github.sukhinin.prometheus.kafka.writer.data.LabeledSample
 import com.github.sukhinin.simpleconfig.MapConfig
+import com.github.sukhinin.simpleconfig.getListOrDefault
 import com.github.sukhinin.simpleconfig.scoped
 import org.apache.kafka.common.serialization.Serializer
 import java.io.ByteArrayOutputStream
